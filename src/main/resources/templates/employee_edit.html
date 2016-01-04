@@ -13,15 +13,16 @@
 	href="http://cdn.jsdelivr.net/webjars/jquery-ui/1.11.4/jquery-ui.min.css"
 	th:href="@{/webjars/jquery-ui/1.11.4/jquery-ui.min.css}"
 	rel="stylesheet" media="screen" />
-	
+
 
 <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
 	th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
 
 
-<script src="http://cdn.jsdelivr.net/webjars/jquery-ui/1.11.4/jquery-ui.min.js"
+<script
+	src="http://cdn.jsdelivr.net/webjars/jquery-ui/1.11.4/jquery-ui.min.js"
 	th:src="@{/webjars/jquery-ui/1.11.4/jquery-ui.min.js}"></script>
-	
+
 <script
 	src="http://cdn.jsdelivr.net/webjars/jquery-tmpl/beta1.0.0/jquery.tmpl.min.js"
 	th:src="@{/webjars/jquery-tmpl/beta1.0.0/jquery.tmpl.min.js}"></script>
@@ -34,7 +35,7 @@
 <script src="../static/js/jquery.validate.min"
 	th:src="@{js/jquery.validate.min.js}"></script>
 
-<script language="JavaScript">
+<script>
 
     $().ready(function() {
     	$( "#birthDate" ).datepicker({
@@ -49,11 +50,11 @@
 			rules: {
     			firstName: {
       				required: true,
-      				minlength: 5
+      				minlength: 2
     			},
     			lastName: {
       				required: true,
-      				minlength: 5
+      				minlength: 2
     			},
     			jobTitle: {
       				required: true,
@@ -189,15 +190,13 @@ function save() {
 
 
 					<div class="form-group">
-						<label for="firstName">First name</label>
-						 <input type="text"
-							class="form-control" id="firstName" name="firstName" 
+						<label for="firstName">First name</label> <input type="text"
+							class="form-control" id="firstName" name="firstName"
 							placeHolder="First Name" />
 					</div>
 					<div class="form-group">
-						<label for="lastName">Last name</label> 
-						<input type="text"
-							class="form-control" id="lastName" name="lastName" 
+						<label for="lastName">Last name</label> <input type="text"
+							class="form-control" id="lastName" name="lastName"
 							placeHolder="Last Name" />
 					</div>
 
@@ -213,14 +212,16 @@ function save() {
 					<div class="form-group">
 						<label for="birthDate">Birthdate</label>
 						<div class="form-group">
-							<input type="text" id="birthDate" name="birthDate" placeHolder="mm/dd/yyyy" />
+							<input type="text" id="birthDate" name="birthDate"
+								placeHolder="mm/dd/yyyy" />
 						</div>
 					</div>
 
 					<div class="form-group">
 						<label for="employmentDate">Employment date</label>
 						<div class="form-group">
-							<input type="text" id="employmentDate" name="employmentDate" placeHolder="mm/dd/yyyy"  /> 
+							<input type="text" id="employmentDate" name="employmentDate"
+								placeHolder="mm/dd/yyyy" />
 						</div>
 					</div>
 
