@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+
+<title>Add Employee</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<link
+	href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/3.3.4/css/bootstrap.min.css}"
+	rel="stylesheet" media="screen" />
+<link
+	href="http://cdn.jsdelivr.net/webjars/jquery-ui/1.11.4/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.11.4/jquery-ui.min.css}"
+	rel="stylesheet" media="screen" />
+	
+
+<script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
+	th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+
+
+<script src="http://cdn.jsdelivr.net/webjars/jquery-ui/1.11.4/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.11.4/jquery-ui.min.js}"></script>
+	
+<script
+	src="http://cdn.jsdelivr.net/webjars/jquery-tmpl/beta1.0.0/jquery.tmpl.min.js"
+	th:src="@{/webjars/jquery-tmpl/beta1.0.0/jquery.tmpl.min.js}"></script>
+
+
+
+
+<script src="../static/js/common.js" th:src="@{js/common.js}"></script>
+
+<script src="../static/js/jquery.validate.min"
+	th:src="@{js/jquery.validate.min.js}"></script>
+
+<script language="JavaScript">
+
+    $().ready(function() {
+    	$( "#birthDate" ).datepicker({
+  			dateFormat: "mm/dd/yy"
+		});
+
+		$( "#employmentDate" ).datepicker({
+  			dateFormat: "mm/dd/yy"
+		});
+				
+		$("#createForm").validate({
+			rules: {
+    			firstName: {
+      				required: true,
+      				minlength: 5
+    			},
+    			lastName: {
+      				required: true,
+      				minlength: 5
+    			},
+    			jobTitle: {
+      				required: true,
+      				minlength: 5
+    			},
+    			birthDate: {
+      				required: true
+      			},
+    			employmentDate: {
+      				required: true
+      			}
+  			},
+  			submitHandler: function(form) {
+    			save();
+    			return false;
+ 	 		}
+		});
+
+		var id = query_param('id');
+		if (id) {
+		  //it's edit
+		  $.ajax({
+         	url:"/rest/employee/"+id,
+         	type:"GET",
+         	success: function(data) {
+         		console.log("Data: " + data);
+         		$("#firstName").val(data.firstName);
+         		$("#lastName").val(data.lastName);
+         		$("#birthDate").val(data.birthDate);
+         		$("#employmentDate").val(data.employmentDate);
+         		$("#jobTitle").val(data.jobTitle);
+         		$("#id").val(data.id);
+         		
+         		if (data.gender == 'MALE') {
+         			$('input:radio[name="gender"]').filter('[value="MALE"]').attr('checked', true);
+         		}
+         		
+         		if (data.gender == 'FEMALE') {
+         			$('input:radio[name="gender"]').filter('[value="FEMALE"]').attr('checked', true);
+         		}
+         		
+         		if (data.gender == 'UNSPECIFIED') {
+         			$('input:radio[name="gender"]').filter('[value="UNSPECIFIED"]').attr('checked', true);
+         		}
+         		
+         		$(".panel-title").html("Edit Employee");
+         		
+         	},
+         	error: function(xhr, desc, err){
+         		console.log("Error: " + err);
+         		var error = err;
+	         	if(xhr.responseJSON) {
+	         		if(xhr.responseJSON.message) {
+	         			error = xhr.responseJSON.message;
+	         		}
+	         	}
+	         	$("#error").html(error);
+         		
+            	$("#error").show();
+	     	}
+		});
+		}
+	});
+	
+	
+	
+	
+function save() {
+
+	$("#error").html('');
+	$("#error").hide();
+	var birthDate = $("#birthDate").datepicker().val();
+	var employmentDate = $("#employmentDate").datepicker().val();
+                   	
+	$.ajax({
+         url:"/rest/employee",
+         type:"POST",
+         
+         data: {'firstName': $("#firstName").val(),
+         	   'lastName': $("#lastName").val(),
+               'gender': $('input[name=gender]:checked', '#createForm').val(),
+               'jobTitle': $("#jobTitle").val(),
+               'birthDate': birthDate,
+               'employmentDate': employmentDate,
+               'id': $("#id").val(),
+         },
+         success: function(data) {
+         	console.log("Data: " + data);
+         	window.location.href = '/employee';
+         },
+         error: function(xhr, desc, err){
+         	console.log("Error: " + err);
+         	var error = err;
+         	if(xhr.responseJSON) {
+         		if(xhr.responseJSON.message) {
+         			error = xhr.responseJSON.message;
+         		}
+         	}
+         	$("#error").html(error);
+            $("#error").show();
+	     }
+		});
+}
+
+
+    
+</script>
+
+</head>
+<body>
+
+
+	<div class="container">
+		<a href="/"> <img src="../static/images/logo.png" width="100"
+			th:src="@{images/logo.png}" />
+		</a>
+
+		<ol class="breadcrumb">
+			<li><a href="/">Home</a></li>
+			<li class="active">Employees</li>
+		</ol>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Add Employee</h3>
+			</div>
+
+			<div class="alert alert-danger" role="alert" id="error" name="error"
+				style="display: none;"></div>
+
+			<div class="panel-body">
+				<form method="POST" action="/rest/employee" id="createForm">
+
+
+					<div class="form-group">
+						<label for="firstName">First name</label>
+						 <input type="text"
+							class="form-control" id="firstName" name="firstName" 
+							placeHolder="First Name" />
+					</div>
+					<div class="form-group">
+						<label for="lastName">Last name</label> 
+						<input type="text"
+							class="form-control" id="lastName" name="lastName" 
+							placeHolder="Last Name" />
+					</div>
+
+
+					<div class="form-group">
+						<label for="gender">Gender</label> <label> <input
+							type="radio" name="gender" id="gender" value="MALE">&nbsp;Male&nbsp;</input>
+							<input type="radio" name="gender" id="gender" value="FEMALE">&nbsp;Female&nbsp;</input>
+							<input type="radio" name="gender" id="gender" value="UNSPECIFIED">&nbsp;Not&nbsp;Specified&nbsp;</input>
+						</label>
+					</div>
+
+					<div class="form-group">
+						<label for="birthDate">Birthdate</label>
+						<div class="form-group">
+							<input type="text" id="birthDate" name="birthDate" placeHolder="mm/dd/yyyy" />
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="employmentDate">Employment date</label>
+						<div class="form-group">
+							<input type="text" id="employmentDate" name="employmentDate" placeHolder="mm/dd/yyyy"  /> 
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<label for="jobTitle">Job Title</label> <input type="text"
+							class="form-control" id="jobTitle" name="jobTitle"
+							placeHolder="Job title" />
+					</div>
+
+
+
+
+					<div class="container-fluid">
+						<div class="collapse navbar-collapse">
+							<ul class="nav navbar-nav navbar-right">
+								<li><button type="submit" class="btn btn-default"
+										onclick="javascript:goToEmployeeList();return false">Cancel</button></li>
+								<li>&nbsp;&nbsp;&nbsp;</li>
+								<li><button type="submit" class="btn btn-default">Save</button></li>
+							</ul>
+						</div>
+					</div>
+					<br /> <input type="hidden" class="form-control" id="id" value="0" />
+				</form>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

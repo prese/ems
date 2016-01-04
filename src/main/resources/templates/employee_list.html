@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+
+<title>Employee List</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<link
+	href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/3.3.4/css/bootstrap.min.css}"
+	rel="stylesheet" media="screen" />
+
+<script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
+	th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+
+
+<script
+	src="http://cdn.jsdelivr.net/webjars/jquery-tmpl/beta1.0.0/jquery.tmpl.min.js"
+	th:src="@{/webjars/jquery-tmpl/beta1.0.0/jquery.tmpl.min.js}"></script>
+<script language="JavaScript">
+    function deleteEmployee(id) {
+		 var url = "/rest/employee/" + id;
+		 $.ajax({
+		 	 url:url,
+	         type:"DELETE",
+	         success: function(data) {
+	             console.log("Data: " + data);
+	         	 window.location.href = '/employee';
+	         },
+	         error: function(xhr, desc, err){
+	         	console.log("Error: " + err);
+	            $("#error").html(err);
+	            $("#error").show();
+		     }
+		});  
+	};
+	function edit(id) {
+		 var url = "/employee?action=edit%26id=" + id;
+		 window.location.href = url;
+		
+	};
+	
+	
+	
+
+	
+	function search() {
+		$("#employeeList").empty();
+	    var query = $("#query").val();
+	    var url = "/rest/employee?query=" + query;
+		 $.ajax({
+		 	 url:url,
+	         type:"GET",
+	         success: function(data) {
+	             console.log("Data: " + data);
+	         	 $("#rowTemplate").tmpl(data).appendTo( "#employeeList" );
+	         },
+	         error: function(xhr, desc, err){
+	         	console.log("Error: " + err);
+	            $("#error").html(err);
+	            $("#error").show();
+		     }
+		});  
+	};
+</script>
+</head>
+<body>
+
+
+	<div class="container">
+		<a href="/"> <img src="../static/images/logo.png" width="100"
+			th:src="@{images/logo.png}" />
+		</a>
+
+		<ol class="breadcrumb">
+			<li><a href="/">Home</a></li>
+			<li class="active">Employees</li>
+		</ol>
+
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="collapse navbar-collapse">
+					<form class="navbar-form navbar-left" role="search">
+						<div class="form-group">
+							<input type="text" class="form-control" name="query" id="query"
+								placeholder="Search by name" />
+						</div>
+						<button type="submit" class="btn btn-default"
+							onclick="javascript:search(); return false;">Search</button>
+
+					</form>
+
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="/employee?action=add"><span
+								class="glyphicon glyphicon-plus" aria-hidden="true">NEW</span></a></li>
+
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+
+		<div class="alert alert-danger" role="alert" id="error" name="error"
+			style="display: none;"></div>
+
+		<!-- Table -->
+		<table class="table">
+			<tr>
+				<th>First Name</th>
+				<th>Last Name</th>
+				<th>Gender</th>
+				<th>Birth Date</th>
+				<th>Employment Date</th>
+				<th>Job Title</th>
+				<th>&nbsp;</th>
+			</tr>
+			<tbody id="employeeList">
+			</tbody>
+
+		</table>
+	</div>
+
+
+	<script>
+     
+  
+    /* Render the template with the employees data and insert
+       the rendered HTML under the "employeeList" element */
+  	$("#error").html('');
+	$("#error").hide();
+	$("#employeeList").empty();
+	
+    $.ajax({
+         url:"/rest/employee",
+         type:"GET",
+         success: function(data) {
+             console.log("Data: " + data);
+         	 $("#rowTemplate").tmpl(data).appendTo( "#employeeList" );
+         },
+         error: function(xhr, desc, err){
+         	console.log("Error: " + err);
+            $("#error").html(err);
+            $("#error").show();
+	     }
+		});  
+		
+	
+    </script>
+
+	<script id="rowTemplate" type="text/x-jquery-tmpl">
+	<tr>
+		<td>${firstName}</td>
+    	<td>${lastName}</td>
+    	<td>${gender}</td>
+    	<td>${birthDate}</td>
+    	<td>${employmentDate}</td>
+    	<td> ${jobTitle}</td>
+    	<td>
+
+			<a href="#" onclick="javascript:deleteEmployee('${id}'); return false;">
+				<span class="glyphicon glyphicon-remove" aria-hidden="true"/>
+			</a>
+
+			&nbsp;
+			<a href="/employee?action=edit&amp;id=${id}">
+				<span class="glyphicon glyphicon-pencil" aria-hidden="true"/>
+			</a>
+    		
+    	</td>
+    </tr>
+	</script>
+
+</body>
+</html>
