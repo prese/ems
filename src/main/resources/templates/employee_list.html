@@ -119,13 +119,13 @@
 					<td th:text="${{employee.firstName}}"></td>
 					<td th:text="${{employee.lastName}}"></td>
 					<td th:text="${{employee.gender}}"></td>
-					<td th:text="${{employee.birthDate}}"></td>	
-					<td th:text="${{employee.employmentDate}}"></td>
+					<td th:text="${{#dates.format(employee.birthDate, 'MM/dd/yyyy')}}"></td>	
+					<td th:text="${{#dates.format(employee.employmentDate, 'MM/dd/yyyy')}}"></td>
 					<td th:text="${{employee.jobTitle}}"></td>
 					<td><a href="#"
-						onclick="javascript:deleteEmployee('${{employee.id}}'); return false;">
+						th:onclick="'javascript:deleteEmployee(\'' + ${{employee.id}} + '\'); return false;'">
 							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-					</a> &nbsp; <a href="/employee?action=edit&amp;id=${id}"> <span
+					</a> &nbsp; <a th:href="@{/employee?id={id}(id=${{employee.id}},action='edit')}"> <span
 							class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 					</a></td>
 				</tr>
@@ -134,12 +134,12 @@
 		</table>
 	</div>
 
-	<script>
+	<!--  script>
      
   
     /* Render the template with the employees data and insert
        the rendered HTML under the "employeeList" element */
-    <!--   
+      
   	$("#error").html('');
 	$("#error").hide();
 	
@@ -159,9 +159,9 @@
             $("#error").show();
 	     }
 		});  
-	-->
 	
-    </script>
+	
+    </script -->
 
 	<script id="rowTemplate" type="text/x-jquery-tmpl">
 	<tr>
