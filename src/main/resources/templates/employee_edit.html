@@ -77,7 +77,7 @@
 		if (id) {
 		  //it's edit
 		  $.ajax({
-         	url:"/rest/employee/"+id,
+         	url:"/rest/employees/"+id,
          	type:"GET",
          	success: function(data) {
          		console.log("Data: " + data);
@@ -130,7 +130,7 @@ function save() {
 	var employmentDate = $("#employmentDate").datepicker().val();
                    	
 	$.ajax({
-         url:"/rest/employee",
+         url:"/rest/employees",
          type:"POST",
          
          data: {'firstName': $("#firstName").val(),
@@ -186,7 +186,7 @@ function save() {
 				style="display: none;"></div>
 
 			<div class="panel-body">
-				<form method="POST" action="/rest/employee" id="createForm">
+				<form method="POST" action="/rest/employees" id="createForm">
 
 
 					<div class="form-group">

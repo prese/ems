@@ -21,7 +21,7 @@ import ro.sci.ems.dao.EmployeeDAO;
 import ro.sci.ems.domain.Employee;
 
 @RestController
-@RequestMapping("/rest/employee")
+@RequestMapping("/rest/employees")
 public class EmployeeService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(EmployeeService.class);
 
