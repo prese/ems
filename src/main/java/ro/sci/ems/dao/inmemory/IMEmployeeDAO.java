@@ -11,7 +11,6 @@ import org.springframework.util.StringUtils;
 import ro.sci.ems.dao.EmployeeDAO;
 import ro.sci.ems.domain.Employee;
 
-@Repository
 public class IMEmployeeDAO extends IMBaseDAO<Employee> implements EmployeeDAO {
 
 	@Override

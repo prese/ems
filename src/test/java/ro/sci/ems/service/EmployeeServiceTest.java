@@ -15,13 +15,13 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import ro.sci.ApplicationTests;
 import ro.sci.ems.Application;
 import ro.sci.ems.domain.Employee;
 import ro.sci.ems.domain.Gender;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
-@WebAppConfiguration
+@SpringApplicationConfiguration(classes = ApplicationTests.class)
 public class EmployeeServiceTest {
 
 	@Autowired

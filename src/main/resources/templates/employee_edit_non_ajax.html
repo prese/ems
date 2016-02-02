@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+
+<title>Add Employee</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<link
+	href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/3.3.4/css/bootstrap.min.css}"
+	rel="stylesheet" media="screen" />
+<link
+	href="http://cdn.jsdelivr.net/webjars/jquery-ui/1.11.4/jquery-ui.min.css"
+	th:href="@{/webjars/jquery-ui/1.11.4/jquery-ui.min.css}"
+	rel="stylesheet" media="screen" />
+
+
+<script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
+	th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+
+
+<script
+	src="http://cdn.jsdelivr.net/webjars/jquery-ui/1.11.4/jquery-ui.min.js"
+	th:src="@{/webjars/jquery-ui/1.11.4/jquery-ui.min.js}"></script>
+
+<script
+	src="http://cdn.jsdelivr.net/webjars/jquery-tmpl/beta1.0.0/jquery.tmpl.min.js"
+	th:src="@{/webjars/jquery-tmpl/beta1.0.0/jquery.tmpl.min.js}"></script>
+
+
+
+
+<script src="../static/js/common.js" th:src="@{js/common.js}"></script>
+
+<script src="../static/js/jquery.validate.min"
+	th:src="@{js/jquery.validate.min.js}"></script>
+
+<script>
+
+    $().ready(function() {
+    	$( "#birthDate" ).datepicker({
+  			dateFormat: "mm/dd/yy"
+		});
+
+		$( "#employmentDate" ).datepicker({
+  			dateFormat: "mm/dd/yy"
+		});
+				
+		$("#createForm").validate({
+			rules: {
+    			firstName: {
+      				required: true,
+      				minlength: 2
+    			},
+    			lastName: {
+      				required: true,
+      				minlength: 2
+    			},
+    			jobTitle: {
+      				required: true,
+      				minlength: 5
+    			},
+    			birthDate: {
+      				required: true
+      			},
+    			employmentDate: {
+      				required: true
+      			}
+  			},
+  			submitHandler: function(form) {
+    			save();
+    			return false;
+ 	 		}
+		});
+
+
+	});
+	
+	
+	
+	
+    
+</script>
+
+</head>
+<body>
+
+
+	<div class="container">
+		<a href="/"> <img src="../static/images/logo.png" width="100"
+			th:src="@{images/logo.png}" />
+		</a>
+
+		<ol class="breadcrumb">
+			<li><a href="/">Home</a></li>
+			<li class="active">Employees</li>
+		</ol>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Add Employee</h3>
+			</div>
+
+
+
+
+			<div class="panel-body">
+				
+				<form method="POST" th:action="@{/employee}" th:object="${employee}">
+				<ul>
+					<li class="alert alert-danger"
+						th:each="err : ${#fields.errors('*')}" th:text="${err}" />
+				</ul>
+
+
+					<div class="form-group">
+						<label for="firstName">First name</label> <input type="text"
+							class="form-control" id="firstName" name="firstName"
+							placeHolder="First Name" />
+					</div>
+					<div class="form-group">
+						<label for="lastName">Last name</label> <input type="text"
+							class="form-control" id="lastName" name="lastName"
+							placeHolder="Last Name" />
+					</div>
+
+
+					<div class="form-group">
+						<label for="gender">Gender</label> <label> <input
+							type="radio" name="gender" id="gender" value="MALE">&nbsp;Male&nbsp;</input>
+							<input type="radio" name="gender" id="gender" value="FEMALE">&nbsp;Female&nbsp;</input>
+							<input type="radio" name="gender" id="gender" value="UNSPECIFIED">&nbsp;Not&nbsp;Specified&nbsp;</input>
+						</label>
+					</div>
+
+					<div class="form-group">
+						<label for="birthDate">Birthdate</label>
+						<div class="form-group">
+							<input type="text" id="birthDate" name="birthDate"
+								placeHolder="mm/dd/yyyy" />
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="employmentDate">Employment date</label>
+						<div class="form-group">
+							<input type="text" id="employmentDate" name="employmentDate"
+								placeHolder="mm/dd/yyyy" />
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<label for="jobTitle">Job Title</label> <input type="text"
+							class="form-control" id="jobTitle" name="jobTitle"
+							placeHolder="Job title" />
+					</div>
+
+
+
+					<div class="container-fluid">
+						<div class="collapse navbar-collapse">
+							<ul class="nav navbar-nav navbar-right">
+								<li><button type="submit" class="btn btn-default"
+										onclick="javascript:goToEmployeeList();return false">Cancel</button></li>
+								<li>&nbsp;&nbsp;&nbsp;</li>
+								<li><button type="submit" class="btn btn-default">Save</button></li>
+							</ul>
+						</div>
+					</div>
+					<br /> <input type="hidden" class="form-control" id="id" value="0" />
+				</form>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
