@@ -7,8 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import ro.sci.ems.dao.EmployeeDAO;
-import ro.sci.ems.dao.db.JDBCDao;
-import ro.sci.ems.dao.inmemory.IMEmployeeDAO;
+import ro.sci.ems.dao.db.JDBCEmployeeDAO;
 
 @Configuration
 @EnableAutoConfiguration
@@ -21,8 +20,8 @@ public class ApplicationTests {
 	
 	@Bean
 	public EmployeeDAO employeeDao() {
-		return new IMEmployeeDAO();
-				//new JDBCDao("localhost", "5432", "test", "test", "test");
+		return //new IMEmployeeDAO();
+				new JDBCEmployeeDAO("localhost", "5432", "test", "test", "test");
 	}
 
 }

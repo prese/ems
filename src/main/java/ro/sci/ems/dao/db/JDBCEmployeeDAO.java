@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import ro.sci.ems.dao.EmployeeDAO;
 import ro.sci.ems.domain.Employee;
@@ -25,8 +26,9 @@ import ro.sci.ems.domain.Gender;
  * @author sebi
  *
  */
-public class JDBCDao implements EmployeeDAO {
-	private static final Logger LOGGER = LoggerFactory.getLogger(JDBCDao.class);
+//@Repository
+public class JDBCEmployeeDAO implements EmployeeDAO {
+	private static final Logger LOGGER = LoggerFactory.getLogger(JDBCEmployeeDAO.class);
 
 	private String host;
 	private String port;
@@ -34,7 +36,12 @@ public class JDBCDao implements EmployeeDAO {
 	private String userName;
 	private String pass;
 
-	public JDBCDao(String host, String port, String dbName, String userName, String pass) {
+	
+	public JDBCEmployeeDAO() {
+		super();
+	}
+
+	public JDBCEmployeeDAO(String host, String port, String dbName, String userName, String pass) {
 		this.host = host;
 		this.userName = userName;
 		this.pass = pass;
@@ -48,7 +55,8 @@ public class JDBCDao implements EmployeeDAO {
 
 		Collection<Employee> result = new LinkedList<>();
 
-		try (ResultSet rs = connection.createStatement().executeQuery("select * from employee")) {
+		try (ResultSet rs = connection.createStatement()
+				.executeQuery("select * from employee")) {
 
 			while (rs.next()) {
 				result.add(extractEmployee(rs));
@@ -74,7 +82,8 @@ public class JDBCDao implements EmployeeDAO {
 
 		List<Employee> result = new LinkedList<>();
 
-		try (ResultSet rs = connection.createStatement().executeQuery("select * from employee where id = " + id)) {
+		try (ResultSet rs = connection.createStatement()
+				.executeQuery("select * from employee where id = " + id)) {
 
 			while (rs.next()) {
 				result.add(extractEmployee(rs));
@@ -201,8 +210,18 @@ public class JDBCDao implements EmployeeDAO {
 		try {
 			Class.forName("org.postgresql.Driver").newInstance();
 
-			String url = new StringBuilder().append("jdbc:").append("postgresql").append("://").append(host).append(":")
-					.append(port).append("/").append(dbName).append("?user=").append(userName).append("&password=")
+			String url = new StringBuilder()
+					.append("jdbc:")
+					.append("postgresql")
+					.append("://")
+					.append(host)
+					.append(":")
+					.append(port)
+					.append("/")
+					.append(dbName)
+					.append("?user=")
+					.append(userName)
+					.append("&password=")
 					.append(pass).toString();
 			Connection result = DriverManager.getConnection(url);
 			result.setAutoCommit(false);

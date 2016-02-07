@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import ro.sci.ems.dao.EmployeeDAO;
-import ro.sci.ems.dao.db.JDBCDao;
+import ro.sci.ems.dao.db.JDBCEmployeeDAO;
 
 @Configuration
 @EnableAutoConfiguration
@@ -20,9 +20,13 @@ public class Application {
 	
 	@Bean
 	public EmployeeDAO employeeDao() {
-		return new JDBCDao("ec2-54-235-152-114.compute-1.amazonaws.com", "5432", "debvjrj4023nfd", "ypsrfyzvblpwsg", "ISY2KvbIISXDHjwdVd-7egvk2o");
+		return //new JDBCEmployeeDAO("localhost", "5432", "test", "test", "test");
+				new JDBCEmployeeDAO("ec2-54-235-152-114.compute-1.amazonaws.com",
+				"5432", "debvjrj4023nfd",
+				"ypsrfyzvblpwsg", 
+				"ISY2KvbIISXDHjwdVd-7egvk2o");
 				
-				//new JDBCDao("localhost", "5432", "test", "test", "test");
+				
 				
 	}
 

@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.springframework.stereotype.Repository;
+
 import ro.sci.ems.dao.BaseDAO;
 import ro.sci.ems.domain.AbstractModel;
 
